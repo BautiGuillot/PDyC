@@ -28,5 +28,17 @@ public class CreateSongDTO {
         return genre;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
 
 }

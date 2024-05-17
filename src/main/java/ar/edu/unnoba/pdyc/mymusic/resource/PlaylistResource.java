@@ -25,19 +25,19 @@ public class PlaylistResource {
     public Response getPlaylists() {
         List<Playlist> playlists = playlistService.getPlaylists();
 
-        List<PlaylistDTO> playlistsInfo = playlists.stream()
-                .map(this::mapToPlaylistInfo)
-                .collect(Collectors.toList());
+        List<PlaylistDTO> playlistsInfo = playlists.stream()        //convertir la lista de playlists a una lista de PlaylistDTO
+                .map(this::mapToPlaylistInfo)                       //usando el metodo mapToPlaylistInfo
+                .collect(Collectors.toList());                      //y coleccionando los resultados en una lista
 
-        return Response.ok(playlistsInfo).build();
+        return Response.ok(playlistsInfo).build();                  //devolver la lista de PlaylistDTO
 
     }
 
     //Mapear una playlist a un PlaylistDTOP con el nombre y la cantidad de canciones que tiene la playlist
     private PlaylistDTO mapToPlaylistInfo(Playlist playlist) {
-        PlaylistDTO playlistInfo = new PlaylistDTO();
-        playlistInfo.setName(playlist.getName());
-        playlistInfo.setSongCount(playlist.getSongs().size());
+        PlaylistDTO playlistInfo = new PlaylistDTO();            //crear un DTO de playlist
+        playlistInfo.setName(playlist.getName());              //setear el nombre de la playlist en el DTO con el nombre de la playlist
+        playlistInfo.setSongCount(playlist.getSongs().size()); //setear la cantidad de canciones de la playlist en el DTO con la cantidad de canciones de la playlist
         return playlistInfo;
     }
 

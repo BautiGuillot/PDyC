@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 @Path("/songs")
@@ -20,11 +20,23 @@ public class SongResource {
     //Consultar las canciones disponibles
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSongs() {                                    //esta bien que no haga el mapper?
+    public Response getSongs() {
         List<Song> songs = songService.getSongs();
-        return Response.ok(songs).build();
+
+        List<CreateSongDTO> songsInfo = songs.stream()
+                .map(this::mapToSongInfo)
+                .collect(Collectors.toList());
+        return Response.ok(songsInfo).build();
     }
 
+    //Mapear una cancion a un CreateSongDTO con el nombre, autor y genero de la cancion
+    private CreateSongDTO mapToSongInfo(Song song) {
+        CreateSongDTO songInfo = new CreateSongDTO();
+        songInfo.setName(song.getName());
+        songInfo.setAutor(song.getAutor());
+        songInfo.setGenre(song.getGenre());
+        return songInfo;
+    }
 
     //crear una cancion
     @POST
