@@ -10,6 +10,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +49,9 @@ public class PlaylistResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createPlaylist(PlaylistDTO playlistDTO) {
-        playlistService.createPlaylist(playlistDTO.getName());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+        playlistService.createPlaylist(playlistDTO.getName(), mail); //crear la playlist con el nombre y el propietario
         return Response.status(Response.Status.CREATED).build();
     }
 
@@ -55,7 +60,9 @@ public class PlaylistResource {
     @Path("/{id}/songs/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addSongToPlaylistRes(@PathParam("id") Long playlistId, SongDTO songDTO) {
-           playlistService.addSongToPlaylist(songDTO.getId(), playlistId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+           playlistService.addSongToPlaylist(songDTO.getId(), playlistId, mail);
             return Response.status(Response.Status.CREATED).build();
     }
 
@@ -63,7 +70,9 @@ public class PlaylistResource {
     @DELETE
     @Path("/{id}/songs/{song_id}")
     public Response removeSongFromPlaylistRes(@PathParam("id") Long playlistId, @PathParam("song_id") Long songId) {
-        playlistService.removeSongFromPlaylist(songId, playlistId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+        playlistService.removeSongFromPlaylist(songId, playlistId, mail);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -72,7 +81,9 @@ public class PlaylistResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePlaylist(@PathParam("id") Long id, PlaylistDTO playlistDTO) {
-        playlistService.updatePlaylistName(id, playlistDTO.getName());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+        playlistService.updatePlaylistName(id, playlistDTO.getName(), mail);
         return Response.status(Response.Status.OK).build();
     }
 
@@ -94,7 +105,9 @@ public class PlaylistResource {
     @DELETE
     @Path("/{id}")
     public Response deletePlaylist(@PathParam("id") Long id) {
-        playlistService.deletePlaylist(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+        playlistService.deletePlaylist(id, mail);
         return Response.status(Response.Status.OK).build();
     }
 }
