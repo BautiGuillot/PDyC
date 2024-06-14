@@ -3,6 +3,7 @@ package ar.edu.unnoba.pdyc.mymusic.security;
 import ar.edu.unnoba.pdyc.mymusic.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         User user = (User) auth.getPrincipal();                                                                            //Se obtiene el usuario autenticado del Authentication. Se castea a User.
         String token = SecurityConstants.createToken(user.getUsername());                      //Se crea un token con el email del usuario. Se utiliza el método createToken de SecurityConstants.
-
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");  //Se expone el header de la respuesta.
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);  //Se agrega el token al header de la respuesta.
         response.getWriter().flush();                                                                                   //Se envía la respuesta.
 

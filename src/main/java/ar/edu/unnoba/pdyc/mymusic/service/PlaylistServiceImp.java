@@ -6,6 +6,7 @@ import ar.edu.unnoba.pdyc.mymusic.repository.PlaylistRepository;
 import ar.edu.unnoba.pdyc.mymusic.model.Playlist;
 import ar.edu.unnoba.pdyc.mymusic.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,6 +97,20 @@ public class PlaylistServiceImp implements PlaylistService {
     @Override
     public Playlist getPlaylistByID(Long playlistId) {
         return repository.findById(playlistId).get();
+    }
+
+    @Transactional
+    @Override
+    public List<Playlist> getPlaylistsByUser(String mail) {
+        User user = userRepository.findByEmail(mail);
+        if (user != null) {
+            List<Playlist> playlists = repository.findByOwner_Id(user.getId());
+            playlists.forEach(playlist -> {
+                Hibernate.initialize(playlist.getSongs());
+            });
+            return playlists;
+        }
+        return null;
     }
 
     private boolean isOwner(Playlist playlist, String mail) {       //retorna true si el mail pasado por parametro es igual al mail del propietario de la playlist

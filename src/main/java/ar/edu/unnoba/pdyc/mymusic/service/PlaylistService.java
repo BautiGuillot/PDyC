@@ -23,4 +23,6 @@ public interface PlaylistService {
 
     Playlist getPlaylistByID(Long playlistId);
 
+    List<Playlist> getPlaylistsByUser(String mail);
+
 }

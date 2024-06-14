@@ -110,4 +110,20 @@ public class PlaylistResource {
         playlistService.deletePlaylist(id, mail);
         return Response.status(Response.Status.OK).build();
     }
+
+    @GET
+    @Path("/misPlaylists")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getMyPlaylists() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
+        String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
+        List<Playlist> playlists = playlistService.getPlaylistsByUser(mail);
+
+        List<PlaylistDTO> playlistsInfo = playlists.stream()        //convertir la lista de playlists a una lista de PlaylistDTO
+                .map(this::mapToPlaylistInfo)                       //usando el metodo mapToPlaylistInfo
+                .collect(Collectors.toList());                      //y coleccionando los resultados en una lista
+
+        return Response.ok(playlistsInfo).build();                  //devolver la lista de PlaylistDTO
+
+    }
 }
