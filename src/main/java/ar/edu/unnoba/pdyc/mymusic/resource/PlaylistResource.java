@@ -111,6 +111,7 @@ public class PlaylistResource {
         return Response.status(Response.Status.OK).build();
     }
 
+    //consultar playlists de un usuario autenticado
     @GET
     @Path("/misPlaylists")
     @Produces(MediaType.APPLICATION_JSON)

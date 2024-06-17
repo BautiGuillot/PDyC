@@ -104,8 +104,8 @@ public class PlaylistServiceImp implements PlaylistService {
     public List<Playlist> getPlaylistsByUser(String mail) {
         User user = userRepository.findByEmail(mail);
         if (user != null) {
-            List<Playlist> playlists = repository.findByOwner_Id(user.getId());
-            playlists.forEach(playlist -> {
+            List<Playlist> playlists = repository.findByOwner_Id(user.getId()); //buscar las playlists de un usuario por su id
+            playlists.forEach(playlist -> {    //inicializa la lista de canciones de cada playlist
                 Hibernate.initialize(playlist.getSongs());
             });
             return playlists;

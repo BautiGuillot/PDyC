@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>{
-    List<Playlist> findByOwner_Id(Long id);
+    List<Playlist> findByOwner_Id(Long id); //buscar las playlists de un usuario por su id
 }
