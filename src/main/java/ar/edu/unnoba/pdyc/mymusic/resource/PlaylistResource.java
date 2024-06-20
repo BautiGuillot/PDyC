@@ -39,6 +39,7 @@ public class PlaylistResource {
     //Mapear una playlist a un PlaylistDTOP con el nombre y la cantidad de canciones que tiene la playlist
     private PlaylistDTO mapToPlaylistInfo(Playlist playlist) {
         PlaylistDTO playlistInfo = new PlaylistDTO();            //crear un DTO de playlist
+        playlistInfo.setId(playlist.getId());                    //setear el id de la playlist en el DTO con el id de la playlist
         playlistInfo.setName(playlist.getName());              //setear el nombre de la playlist en el DTO con el nombre de la playlist
         playlistInfo.setSongCount(playlist.getSongs().size()); //setear la cantidad de canciones de la playlist en el DTO con la cantidad de canciones de la playlist
         return playlistInfo;

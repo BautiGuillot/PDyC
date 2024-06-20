@@ -1,15 +1,25 @@
 package ar.edu.unnoba.pdyc.mymusic.dto;
 
 public class PlaylistDTO {
+    private Long id;
     private String name;
     private int songCount;
 
-    public PlaylistDTO(String name, int songCount) {
+    public PlaylistDTO(Long id, String name, int songCount) {
+        this.id = id;
         this.name = name;
         this.songCount = songCount;
     }
 
     public PlaylistDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
