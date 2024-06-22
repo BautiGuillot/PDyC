@@ -1,7 +1,7 @@
 package ar.edu.unnoba.pdyc.mymusic.resource;
 
+import ar.edu.unnoba.pdyc.mymusic.dto.CreateSongDTO;
 import ar.edu.unnoba.pdyc.mymusic.dto.PlaylistDTO;
-import ar.edu.unnoba.pdyc.mymusic.dto.PlaylistSongsDTO;
 import ar.edu.unnoba.pdyc.mymusic.dto.SongDTO;
 import ar.edu.unnoba.pdyc.mymusic.model.Playlist;
 import ar.edu.unnoba.pdyc.mymusic.model.Song;
@@ -93,12 +93,20 @@ public class PlaylistResource {
     @Path("/{id}/songs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSongsFromPlaylist(@PathParam("id") Long playlistId) {
-        Playlist playlist = playlistService.getPlaylistByID(playlistId);
-        List<String> songNames = playlistService.getSongsFromPlaylist(playlistId).stream()
-                .map(Song::getName)
+        List<Song> songs = playlistService.getSongsFromPlaylist(playlistId); //obtener las canciones de la playlist
+
+        List<CreateSongDTO> songsInfo = songs.stream() //convertir la lista de canciones a una lista de CreateSongDTO con el nombre, autor y genero de la cancion
+                .map(this::mapToSongInfo)
                 .collect(Collectors.toList());
-        PlaylistSongsDTO playlistSongs = new PlaylistSongsDTO(playlist.getName(), songNames);
-        return Response.ok(playlistSongs).build();
+        return Response.ok(songsInfo).build();
+    }
+
+    private CreateSongDTO mapToSongInfo(Song song) { //metodo para mapear una cancion a un CreateSongDTO con el nombre, autor y genero de la cancion
+        CreateSongDTO songInfo = new CreateSongDTO();
+        songInfo.setName(song.getName());
+        songInfo.setAutor(song.getAutor());
+        songInfo.setGenre(song.getGenre());
+        return songInfo;
     }
 
 
