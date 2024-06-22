@@ -15,7 +15,7 @@ public interface PlaylistService {
 
     void removeSongFromPlaylist(Long songId, Long playlistId, String mail);
 
-    void updatePlaylistName(Long playlistId, String nameSong, String mail);
+    void updatePlaylistName(Long playlistId, String newName, String mail);
 
     List<Playlist> getPlaylists();
 

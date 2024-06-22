@@ -81,10 +81,10 @@ public class PlaylistResource {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePlaylist(@PathParam("id") Long id, PlaylistDTO playlistDTO) {
+    public Response updatePlaylist(@PathParam("id") Long id, String newName) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //obtener el usuario autenticado
         String mail = authentication.getName(); //obtener el nombre del usuario autenticado (mail)
-        playlistService.updatePlaylistName(id, playlistDTO.getName(), mail);
+        playlistService.updatePlaylistName(id, newName, mail);
         return Response.status(Response.Status.OK).build();
     }
 

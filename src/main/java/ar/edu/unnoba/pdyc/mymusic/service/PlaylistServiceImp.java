@@ -68,11 +68,11 @@ public class PlaylistServiceImp implements PlaylistService {
     }
 
     @Override
-    public void updatePlaylistName(Long playlistId, String nameSong, String nameOwner) {
+    public void updatePlaylistName(Long playlistId, String newName, String nameOwner) {
         Playlist playlist = repository.findById(playlistId).get();
         if (!isOwner(playlist, nameOwner))
             throw new RuntimeException("You are not the owner of the playlist");
-        playlist.setName(nameSong);
+        playlist.setName(newName);
         repository.save(playlist);
     }
 
