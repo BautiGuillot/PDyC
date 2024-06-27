@@ -1,6 +1,5 @@
 package ar.edu.unnoba.pdyc.mymusic.resource;
 
-import ar.edu.unnoba.pdyc.mymusic.dto.CreateSongDTO;
 import ar.edu.unnoba.pdyc.mymusic.dto.PlaylistDTO;
 import ar.edu.unnoba.pdyc.mymusic.dto.SongDTO;
 import ar.edu.unnoba.pdyc.mymusic.model.Playlist;
@@ -95,14 +94,15 @@ public class PlaylistResource {
     public Response getSongsFromPlaylist(@PathParam("id") Long playlistId) {
         List<Song> songs = playlistService.getSongsFromPlaylist(playlistId); //obtener las canciones de la playlist
 
-        List<CreateSongDTO> songsInfo = songs.stream() //convertir la lista de canciones a una lista de CreateSongDTO con el nombre, autor y genero de la cancion
+        List<SongDTO> songsInfo = songs.stream() //convertir la lista de canciones a una lista de CreateSongDTO con el nombre, autor y genero de la cancion
                 .map(this::mapToSongInfo)
                 .collect(Collectors.toList());
         return Response.ok(songsInfo).build();
     }
 
-    private CreateSongDTO mapToSongInfo(Song song) { //metodo para mapear una cancion a un CreateSongDTO con el nombre, autor y genero de la cancion
-        CreateSongDTO songInfo = new CreateSongDTO();
+    private SongDTO mapToSongInfo(Song song) { //metodo para mapear una cancion a un SongDTO con el id, nombre, autor y genero de la cancion
+        SongDTO songInfo = new SongDTO();
+        songInfo.setId(song.getId());
         songInfo.setName(song.getName());
         songInfo.setAutor(song.getAutor());
         songInfo.setGenre(song.getGenre());

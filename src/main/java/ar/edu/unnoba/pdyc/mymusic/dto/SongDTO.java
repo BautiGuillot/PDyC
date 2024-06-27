@@ -22,7 +22,6 @@ public class SongDTO {
         return id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -35,5 +34,19 @@ public class SongDTO {
         return genre;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
 }
